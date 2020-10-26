@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scale_app/screens/health_care_screen.dart';
-import 'package:scale_app/screens/home_screen.dart';
-import 'package:scale_app/screens/setting_screen.dart';
-import 'package:scale_app/screens/splash_screen.dart';
+import 'package:scale_app/screens/login/health_care_screen.dart';
+import 'package:scale_app/screens/home/home_screen.dart';
+import 'package:scale_app/screens/login/setting_screen.dart';
+import 'package:scale_app/screens/login/splash_screen.dart';
 
 main() {
   runApp(MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         '/splash': (_) => new SplashScreen(),
         '/setting': (_) => new SettingScreen(),
         '/health': (_) => new HealthCareScreen(),
-        '/home': (_) => new HomeScreen(),
+        '/screens.home': (_) => new HomeScreen(),
       },
     );
   }

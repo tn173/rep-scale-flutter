@@ -65,7 +65,7 @@ class SettingScreen extends StatelessWidget {
           width: _width,
           height: 50,
           child: RaisedButton(
-            child: const Text('次へ'),
+            child: const Text('設定'),
             color: Colors.blue,
             shape: const StadiumBorder(),
             onPressed: () {

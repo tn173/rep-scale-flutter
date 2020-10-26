@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:health/health.dart';
+
+enum AppState { DATA_NOT_FETCHED, FETCHING_DATA, DATA_READY, NO_DATA }
 
 class HealthCareScreen extends StatelessWidget {
   final double _width = 350;
@@ -18,7 +21,7 @@ class HealthCareScreen extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Text('ScaleAppではヘルスケアアプリと連携することで一日の消費カロリーを確認することができます。許可する場合は以下のように設定を行ってください。'),
+                child: Text('ScaleAppではヘルスケアアプリと連携することで一日の消費カロリーを確認することができます。許可する場合は以下の設定を行ってください。'),
               ),
               Divider(),
 
@@ -35,11 +38,29 @@ class HealthCareScreen extends StatelessWidget {
           width: _width,
           height: 50,
           child: RaisedButton(
-            child: const Text('次へ'),
+            child: const Text('設定'),
             color: Colors.blue,
             shape: const StadiumBorder(),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/home');
+            onPressed: () async {
+              HealthFactory health = HealthFactory();
+
+              List<HealthDataType> types = [
+                HealthDataType.STEPS,
+              ];
+
+              DateTime startDate = DateTime.utc(2001, 01, 01);
+              DateTime endDate = DateTime.now();
+              bool granted = await health.requestAuthorization(types);
+              print('Health Care Data granted:$granted');
+              if(granted){
+                List<HealthDataPoint> healthData =
+                await health.getHealthDataFromTypes(startDate, endDate, types);
+                print(healthData);
+                Navigator.of(context).pushNamed('/screens.home');
+              }else{
+                print('error:Health Care Data is not allowed');
+              }
+              
             },
           ),
         ),
