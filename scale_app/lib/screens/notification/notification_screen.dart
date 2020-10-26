@@ -14,6 +14,9 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('お知らせ'),
+      ),
       body: Center(
         child: Text('Hello Notification Screen'),
       ),

@@ -14,6 +14,9 @@ class _GraphWidgetState extends State<GraphWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('グラフ'),
+      ),
       body: Center(
         child: Text('Hello Graph Screen'),
       ),

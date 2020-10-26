@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         '/splash': (_) => new SplashScreen(),
         '/setting': (_) => new SettingScreen(),
         '/health': (_) => new HealthCareScreen(),
-        '/screens.home': (_) => new HomeScreen(),
+        '/home': (_) => new HomeScreen(),
       },
     );
   }

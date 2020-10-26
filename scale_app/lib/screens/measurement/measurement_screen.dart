@@ -14,6 +14,9 @@ class _MeasurementWidgetState extends State<MeasurementWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text('測定'),
+        ),
         body: Center(
           child: Text('Hello Measurement Screen'),
         ),

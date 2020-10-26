@@ -24,7 +24,10 @@ class HealthCareScreen extends StatelessWidget {
                 child: Text('ScaleAppではヘルスケアアプリと連携することで一日の消費カロリーを確認することができます。許可する場合は以下の設定を行ってください。'),
               ),
               Divider(),
-
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 72),
+                child: Image.asset('assets/health_care_setting.png'),
+              ),
             ],
           ),
         ),
@@ -56,11 +59,12 @@ class HealthCareScreen extends StatelessWidget {
                 List<HealthDataPoint> healthData =
                 await health.getHealthDataFromTypes(startDate, endDate, types);
                 print(healthData);
-                Navigator.of(context).pushNamed('/screens.home');
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+//                Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/setting"));
               }else{
                 print('error:Health Care Data is not allowed');
               }
-              
             },
           ),
         ),

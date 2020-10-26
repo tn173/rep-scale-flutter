@@ -19,9 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        title: Text('App Bar (テスト用)'),
-      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: [
@@ -57,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.blueAccent,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         onTap: (int index) {
           var _scrollController;
           switch (index) {
