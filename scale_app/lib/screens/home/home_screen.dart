@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
         index: _selectedIndex,
         children: [
           MeasurementWidget(measurementController: _measurementController),
-          GraphWidget(graphController: _graphController),
+//          GraphWidget(graphController: _graphController),
+          GraphWidget.withSampleData(),
           ProfileWidget(profileController: _profileController),
           NotificationWidget(notificationController: _notificationController,),
         ],
@@ -72,13 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
               _scrollController = _notificationController;
               break;
           }
-          if (index == _selectedIndex) {
-            _scrollController.animateTo(
-              0.0,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
-          }
+          // IconTap時に一番上に戻す
+//          if (index == _selectedIndex) {
+//            _scrollController.animateTo(
+//              0.0,
+//              curve: Curves.easeOut,
+//              duration: const Duration(milliseconds: 300),
+//            );
+//          }
           setState(
                 () {
               _selectedIndex = index;

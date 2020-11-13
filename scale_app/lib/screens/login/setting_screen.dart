@@ -1,76 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class SettingScreen extends StatefulWidget {
-
-  SettingScreen({Key key,})
-      : super(key: key);
+  SettingScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   _SettingScreenState createState() => _SettingScreenState();
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  BuildContext _scaffoldContext;
+
   final double _width = 350;
-  TextEditingController _genderController = TextEditingController();
-  TextEditingController _birthdayController = TextEditingController();
-  TextEditingController _heightController = TextEditingController();
-
-  List<String> _titleList = [
-    '性別', '生年月日', '身長'
-  ];
-
-  List<String> _contentList = [
-    '', '', ''
-  ];
-
-  // 期間指定
-  int _startYear = 1900;
-  int _endYear;
-  int _nowMonth;
-  List<int> _yearList = [];
-  List<int> _monthList = [];
-  List<Widget> yearListWidget() {
-    List<Widget> list = [];
-    _yearList.forEach((year) {
-      list.add(Text('$year年'));
-    });
-    return list;
-  }
-  List<Widget> monthListWidget() {
-    List<Widget> list = [];
-    _monthList.forEach((month) {
-      list.add(Text('$month月'));
-    });
-    return list;
-  }
+  String _gender = '';
+  String _genderText = '';
+  int _selectedGenderIndex;
+  List<String> _genderList = ['男性', '女性']; // その他も含めるかどうか
+  String _birthText = '';
+  String _height = '';
+  String _heightText = '';
+  int _selectedHeightIndex;
+  List<String> _heightList;
+  int _minHeight = 50;
+  int _maxHeight = 250;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _initialize();
   }
 
   // TODO データから取得
   void _initialize() {
-    _endYear = DateTime.now().year;
-    _nowMonth = DateTime.now().month;
+    _selectedGenderIndex = 0;
+    _gender = _genderList[_selectedGenderIndex];
 
-    for (int i = _startYear; i <= _endYear; i++) {
-      _yearList.add(i);
+    _selectedHeightIndex = 120;
+    _heightList = [];
+    for (int i = _minHeight; i <= _maxHeight; i++) {
+      _heightList.add('${i}cm');
     }
-    for (int i = 1; i <= 12; i++) {
-      _monthList.add(i);
-    }
-  }
-
-  List<String> _optionList(int mode){
-
-  }
-
-  List<Widget> _optionWidgetList(int mode){
-
+    _height = _heightList[_selectedHeightIndex];
   }
 
   Widget _settingWidget() {
@@ -90,44 +65,95 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Text('基本情報を設定してください'),
             ),
             Divider(),
-            Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-              child: GestureDetector(
-                onTap:() async {
-//                  var gender = await _showModal(context,0);
-//                  setState(() {
-//                    _genderController.text = gender;
-//                  });
-                },
-                child: TextField(
-                  readOnly: true,
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '性別',
-                    labelText: '性別',
+            InkWell(
+              onTap: () async {
+                var gender = await _showGenderModal(context);
+                setState(() {
+                  _genderText = gender;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('性別'),
                   ),
-                  controller: _genderController,
-                ),
+                  Row(
+                      children: <Widget>[
+                        Text(_genderText),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.arrow_forward_ios, size: 16.0),
+                        ),
+                      ]),
+                ],
               ),
             ),
             Divider(),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('生年月日'),
-                ),
-              ],
+            InkWell(
+              onTap: () {
+                DatePicker.showDatePicker(context,
+                  showTitleActions: true,
+                  minTime: DateTime(1900, 1, 1),
+                  maxTime: DateTime.now(),
+                  onConfirm: (date) {
+                    print('confirm $date');
+                    setState(() {
+                      _birthText = '${date.year}年${date.month}月${date.day}日';
+                    });
+                  },
+                  currentTime: DateTime.now(),
+                  locale: LocaleType.jp,
+                  theme: DatePickerTheme(
+                    cancelStyle: const TextStyle(
+                        color: Colors.blue, fontSize: 16),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('生年月日'),
+                  ),
+                  Row(
+                      children: <Widget>[
+                        Text(_birthText),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.arrow_forward_ios, size: 16.0),
+                        ),
+                      ]),
+                ],
+              ),
             ),
             Divider(),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('身長'),
-                ),
-              ],
+            InkWell(
+              onTap: () async {
+                var height = await _showHeightModal(context);
+                setState(() {
+                  _heightText = height;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('身長'),
+                  ),
+                  Row(
+                      children: <Widget>[
+                        Text(_heightText),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.arrow_forward_ios, size: 16.0),
+                        ),
+                      ]),
+                ],
+              ),
             ),
             Divider(),
             Padding(
@@ -151,11 +177,254 @@ class _SettingScreenState extends State<SettingScreen> {
           color: Colors.blue,
           shape: const StadiumBorder(),
           onPressed: () {
-            Navigator.of(context).pushNamed('/health');
+            var s = '';
+            if(_genderText == ''){
+              s = '性別';
+            }else if(_birthText == ''){
+              s = '生年月日';
+            }else if(_heightText == ''){
+              s = '身長';
+            }else{
+              Navigator.of(context).pushNamed('/health');
+            }
+            if(s != '') _showAlert(s);
           },
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('基本設定'),
+        ),
+        body: Builder(builder: (BuildContext context) {
+          _scaffoldContext = context;
+          return Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[_settingWidget(), _nextButton()]),
+          );
+        })
+    );
+  }
+
+  void _showAlert(String s) {
+    final snackBar = SnackBar(
+        content: Text("$sを入力してください。"),
+        backgroundColor: Colors.brown,
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: (){},
+        ));
+
+    Scaffold.of(_scaffoldContext).showSnackBar(snackBar);
+  }
+
+  // 性別選択Modal
+  Future<String> _showGenderModal(BuildContext context) async {
+    var cancel = 'キャンセル';
+    var text = '性別を選択してください';
+    var next = '完了';
+    var gender = await showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter stateSetter) {
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffffffff),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Color(0xff999999),
+                                width: 0.0,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              CupertinoButton(
+                                child: Text(
+                                  cancel,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 5.0,
+                                ),
+                              ),
+                              Text(
+                                text,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              CupertinoButton(
+                                child: Text(
+                                  next,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  var text = '$_gender';
+                                  Navigator.pop(context, text);
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 5.0,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: _bottomPicker(CupertinoPicker(
+                              itemExtent: 30,
+                              children: _genderListWidget(),
+                              onSelectedItemChanged: (int index) {
+                                setState(() {
+                                  _gender = _genderList[index];
+                                  _selectedGenderIndex = index;
+                                });
+                              },
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: _selectedGenderIndex),
+                            )),
+                          ),
+                        ]),
+                      ]);
+                }),
+          );
+        });
+
+    return gender ?? '';
+  }
+
+  List<Widget> _genderListWidget() {
+    List<Widget> list = [];
+    _genderList.forEach((gender) {
+      list.add(Text('$gender'));
+    });
+    return list;
+  }
+
+  // 身長選択Modal
+  Future<String> _showHeightModal(BuildContext context) async {
+    var cancel = 'キャンセル';
+    var text = '身長を選択してください';
+    var next = '完了';
+    var height = await showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter stateSetter) {
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffffffff),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Color(0xff999999),
+                                width: 0.0,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              CupertinoButton(
+                                child: Text(
+                                  cancel,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 5.0,
+                                ),
+                              ),
+                              Text(
+                                text,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              CupertinoButton(
+                                child: Text(
+                                  next,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  var text = '$_height';
+                                  Navigator.pop(context, text);
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 5.0,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: _bottomPicker(CupertinoPicker(
+                              itemExtent: 30,
+                              children: _heightListWidget(),
+                              onSelectedItemChanged: (int index) {
+                                setState(() {
+                                  _height = _heightList[index];
+                                  _selectedHeightIndex = index;
+                                });
+                              },
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: _selectedHeightIndex),
+                            )),
+                          ),
+                        ]),
+                      ]);
+                }),
+          );
+        });
+
+    return height ?? '';
+  }
+
+  List<Widget> _heightListWidget() {
+    List<Widget> list = [];
+    _heightList.forEach((height) {
+      list.add(Text('$height'));
+    });
+    return list;
   }
 
   Widget _bottomPicker(Widget picker) {
@@ -179,111 +448,4 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  // 選択Modal mode 0:性別、1:生年月日、2:身長
-//  Future<String> _showModal(BuildContext context, int mode) async {
-//    var cancel = 'キャンセル';
-//    var text = '${_titleList[mode]}を選択してください';
-//    var next = '完了';
-//    var language = await showCupertinoModalPopup(
-//        context: context,
-//        builder: (BuildContext context) {
-//          return Container(
-//            child: StatefulBuilder(
-//                builder: (BuildContext context, StateSetter stateSetter) {
-//                  return Column(
-//                      mainAxisAlignment: MainAxisAlignment.end,
-//                      children: <Widget>[
-//                        Container(
-//                          decoration: BoxDecoration(
-//                            color: Color(0xffffffff),
-//                            border: Border(
-//                              bottom: BorderSide(
-//                                color: Color(0xff999999),
-//                                width: 0.0,
-//                              ),
-//                            ),
-//                          ),
-//                          child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            children: <Widget>[
-//                              CupertinoButton(
-//                                child: Text(
-//                                  cancel,
-//                                  style: TextStyle(
-//                                    fontSize: 15,
-//                                  ),
-//                                ),
-//                                onPressed: () {
-//                                  Navigator.pop(context);
-//                                },
-//                                padding: const EdgeInsets.symmetric(
-//                                  horizontal: 16.0,
-//                                  vertical: 5.0,
-//                                ),
-//                              ),
-//                              Text(
-//                                text,
-//                                style: TextStyle(
-//                                  fontWeight: FontWeight.bold,
-//                                  fontSize: 15,
-//                                  color: Colors.black,
-//                                  decoration: TextDecoration.none,
-//                                ),
-//                              ),
-//                              CupertinoButton(
-//                                child: Text(
-//                                  next,
-//                                  style: TextStyle(
-//                                    fontSize: 15,
-//                                  ),
-//                                ),
-//                                onPressed: () {
-//                                  var text = '${_contentList[mode]}';
-//                                  Navigator.pop(context, text);
-//                                },
-//                                padding: const EdgeInsets.symmetric(
-//                                  horizontal: 16.0,
-//                                  vertical: 5.0,
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                        ),
-//                        Row(children: <Widget>[
-//                          Expanded(
-//                            child: _bottomPicker(CupertinoPicker(
-//                              itemExtent: 30,
-//                              children: _optionWidgetList(mode),
-//                              onSelectedItemChanged: (int index) {
-//                                setState(() {
-//                                  _contentList[mode] = _optionList(mode)[index];
-//                                  _selectedIndexList[mode] = index;
-//                                });
-//                              },
-//                              scrollController: FixedExtentScrollController(
-//                                  initialItem: _selectedIndexList[mode]),
-//                            )),
-//                          ),
-//                        ]),
-//                      ]);
-//                }),
-//          );
-//        });
-//
-//    return language;
-//  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('基本設定'),
-        ),
-        body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[_settingWidget(), _nextButton()]),
-        ));
-  }
 }
