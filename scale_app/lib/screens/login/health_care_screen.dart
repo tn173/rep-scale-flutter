@@ -41,7 +41,12 @@ class HealthCareScreen extends StatelessWidget {
           width: _width,
           height: 50,
           child: RaisedButton(
-            child: const Text('設定'),
+            child: const Text(
+              '設定',
+              style: TextStyle(
+                  color: Colors.white
+              ),
+            ),
             color: Colors.blue,
             shape: const StadiumBorder(),
             onPressed: () async {
