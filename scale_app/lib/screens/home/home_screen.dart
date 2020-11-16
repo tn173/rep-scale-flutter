@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:scale_app/screens/graph/graph_screen.dart';
-import 'package:scale_app/screens/graph/graph_screen_old.dart';
 import 'package:scale_app/screens/measurement/measurement_screen.dart';
 import 'package:scale_app/screens/notification/notification_screen.dart';
 import 'package:scale_app/screens/profile/profile.dart';
@@ -25,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           MeasurementWidget(measurementController: _measurementController),
           GraphWidget.withSampleData(),
-//          GraphOldWidget.withSampleData(),
           ProfileWidget(profileController: _profileController),
           NotificationWidget(notificationController: _notificationController,),
         ],
