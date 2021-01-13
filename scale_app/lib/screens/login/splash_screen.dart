@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scale_app/screens/home/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'setting_screen.dart';
 
@@ -18,9 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<bool> _checkInitialized() async {
     try{
-      await new Future.delayed(new Duration(seconds: 3));
       // TODO 初期化設定
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      isLogined = prefs.getBool("isLogined") ?? false;
       return true;
     }catch(e){
       showAlert = true;

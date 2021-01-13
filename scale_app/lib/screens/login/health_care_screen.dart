@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppState { DATA_NOT_FETCHED, FETCHING_DATA, DATA_READY, NO_DATA }
 
 class HealthCareScreen extends StatelessWidget {
   final double _width = 350;
+
   @override
   Widget build(BuildContext context) {
     Widget _settingWidget() {
       return Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(12.0),
         child: Container(
-          height: 400,
+          height: MediaQuery.of(context).size.height * 0.65,
           width: _width,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
@@ -21,12 +23,16 @@ class HealthCareScreen extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Text('ScaleAppではヘルスケアアプリと連携することで一日の消費カロリーを確認することができます。許可する場合は以下の設定を行ってください。'),
+                child: Text(
+                    'ScaleAppではヘルスケアアプリと連携することで一日の消費カロリーを確認することができます。許可する場合は以下の設定を行ってください。'),
               ),
               Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 72),
-                child: Image.asset('assets/health_care_setting.png'),
+                child: Image.asset(
+                  'assets/health_care_setting.png',
+                  height: MediaQuery.of(context).size.height * 0.35,
+                ),
               ),
             ],
           ),
@@ -43,33 +49,33 @@ class HealthCareScreen extends StatelessWidget {
           child: RaisedButton(
             child: const Text(
               '設定',
-              style: TextStyle(
-                  color: Colors.white
-              ),
+              style: TextStyle(color: Colors.white),
             ),
             color: Colors.blue,
             shape: const StadiumBorder(),
             onPressed: () async {
-              HealthFactory health = HealthFactory();
-
-              List<HealthDataType> types = [
-                HealthDataType.STEPS,
-              ];
-
-              DateTime startDate = DateTime.utc(2001, 01, 01);
-              DateTime endDate = DateTime.now();
-              bool granted = await health.requestAuthorization(types);
-              print('Health Care Data granted:$granted');
-              if(granted){
-                List<HealthDataPoint> healthData =
-                await health.getHealthDataFromTypes(startDate, endDate, types);
-                print(healthData);
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-//                Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/setting"));
-              }else{
-                print('error:Health Care Data is not allowed');
-              }
+              // HealthFactory health = HealthFactory();
+              //
+              // List<HealthDataType> types = [
+              //   HealthDataType.STEPS,
+              // ];
+              //
+              // DateTime startDate = DateTime.utc(2001, 01, 01);
+              // DateTime endDate = DateTime.now();
+              // bool granted = await health.requestAuthorization(types);
+              // print('Health Care Data granted:$granted');
+              // // TODO ホーム遷移前にローディング表示
+              // if(granted){
+              //   List<HealthDataPoint> healthData =
+              //   await health.getHealthDataFromTypes(startDate, endDate, types);
+              //   print(healthData);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setBool("isLogined", true);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/home', (Route<dynamic> route) => false);
+              // }else{
+              //   print('error:Health Care Data is not allowed');
+              // }
             },
           ),
         ),

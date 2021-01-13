@@ -21,10 +21,13 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  health: ^2.0.9
-  flutter_datetime_picker: ^1.4.0
+  health: ^3.0.0
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/espresso3389/flutter_datetime_picker
   charts_flutter: ^0.9.0
   fl_chart: ^0.12.0
+  shared_preferences: ^0.5.12+4
   flutter:
     sdk: flutter
 

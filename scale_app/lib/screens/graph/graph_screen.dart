@@ -4,6 +4,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+class TimeSeriesWeight {
+  final DateTime time;
+  final double weight;
+
+  TimeSeriesWeight(this.time, this.weight);
+}
+
 class GraphWidget extends StatefulWidget {
   final List<TimeSeriesWeight> data;
 
@@ -117,7 +124,7 @@ class _GraphWidgetState extends State<GraphWidget>
 
   Widget _graphWidget(List<TimeSeriesWeight> data, DateTime start) {
     return Padding(
-        padding: const EdgeInsets.all(24.0), child: sample(data, start));
+        padding: const EdgeInsets.all(24.0), child: _sample(data, start));
   }
 
   @override
@@ -139,7 +146,8 @@ class _GraphWidgetState extends State<GraphWidget>
           children: tabs.map((tab) {
             return _createTab(tab);
           }).toList(),
-        ));
+        )
+    );
   }
 
   Widget _createTab(Tab tab) {
@@ -173,9 +181,9 @@ class _GraphWidgetState extends State<GraphWidget>
     );
   }
 
-  Widget sample(List<TimeSeriesWeight> data, DateTime start) {
-    if (data == []) {
-      Container(
+  Widget _sample(List<TimeSeriesWeight> data, DateTime start) {
+    if (data.isEmpty) {
+      return Container(
           child: Text('データが存在しません。体重を測ってください。')
       );
     } else {
@@ -330,11 +338,4 @@ class _GraphWidgetState extends State<GraphWidget>
       );
     }
   }
-}
-
-class TimeSeriesWeight {
-  final DateTime time;
-  final double weight;
-
-  TimeSeriesWeight(this.time, this.weight);
 }

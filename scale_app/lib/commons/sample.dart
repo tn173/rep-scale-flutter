@@ -33,7 +33,7 @@ class Sample {
   Widget container = Container(
     height: 200,
     color: Colors.blue,
-    margin: EdgeInsets.symmetric(vertical: 10),
+    margin: EdgeInsets.symmetric(vertical: 3),
   );
 
   Widget titleWidget(String title, double fontSize){

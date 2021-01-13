@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
   SettingScreen({
@@ -20,10 +21,12 @@ class _SettingScreenState extends State<SettingScreen> {
   int _selectedGenderIndex;
   List<String> _genderList = ['男性', '女性']; // その他も含めるかどうか
   String _birthText = '';
-  String _height = '';
+  int _age = 0;
+  int _height = 0;
   String _heightText = '';
   int _selectedHeightIndex;
-  List<String> _heightList;
+  List<int> _heightList;
+  List<String> _heightListString;
   int _minHeight = 50;
   int _maxHeight = 250;
 
@@ -42,17 +45,19 @@ class _SettingScreenState extends State<SettingScreen> {
 
     _selectedHeightIndex = 120;
     _heightList = [];
+    _heightListString = [];
     for (int i = _minHeight; i <= _maxHeight; i++) {
-      _heightList.add('${i}cm');
+      _heightList.add(i);
+      _heightListString.add('${i}cm');
     }
     _height = _heightList[_selectedHeightIndex];
   }
 
   Widget _settingWidget() {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(12.0),
       child: Container(
-        height: 400,
+        height: MediaQuery.of(context).size.height*0.65,
         width: _width,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.blue),
@@ -101,6 +106,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     print('confirm $date');
                     setState(() {
                       _birthText = '${date.year}年${date.month}月${date.day}日';
+                      _age = (DateTime.now().difference(date).inDays/365).floor();
                     });
                   },
                   currentTime: DateTime.now(),
@@ -134,7 +140,7 @@ class _SettingScreenState extends State<SettingScreen> {
               onTap: () async {
                 var height = await _showHeightModal(context);
                 setState(() {
-                  _heightText = height;
+                  _heightText = '${height}cm';
                 });
               },
               child: Row(
@@ -181,7 +187,7 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           color: Colors.blue,
           shape: const StadiumBorder(),
-          onPressed: () {
+          onPressed: () async {
             var s = '';
             if(_genderText == ''){
               s = '性別';
@@ -189,7 +195,12 @@ class _SettingScreenState extends State<SettingScreen> {
               s = '生年月日';
             }else if(_heightText == ''){
               s = '身長';
-            }else{
+            }else {
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('gender', _genderText);
+              prefs.setString('birth', _birthText);
+              prefs.setInt('age', _age);
+              prefs.setInt('height', _height);
               Navigator.of(context).pushNamed('/health');
             }
             if(s != '') _showAlert(s);
@@ -426,8 +437,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
   List<Widget> _heightListWidget() {
     List<Widget> list = [];
-    _heightList.forEach((height) {
-      list.add(Text('$height'));
+    _heightListString.forEach((height) {
+      list.add(Text(height));
     });
     return list;
   }
