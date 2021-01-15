@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		3D222B6825B192080073854E /* Next.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D222B6625B192080073854E /* Next.storyboard */; };
+		3D222B6925B192080073854E /* NextController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D222B6725B192080073854E /* NextController.swift */; };
+		3D222B7025B1AB030073854E /* PPScale in Resources */ = {isa = PBXBuildFile; fileRef = 3D222B6F25B1AB030073854E /* PPScale */; };
+		3D222B7225B1AB5D0073854E /* PPScale in Resources */ = {isa = PBXBuildFile; fileRef = 3D222B7125B1AB5D0073854E /* PPScale */; };
 		3DFEFAAE2546C32E00D8A6F2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFEFAAD2546C32E00D8A6F2 /* HealthKit.framework */; };
 		7232CD088D8417917BFF0BB3 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26FD207F22E3F8593247D03A /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -36,6 +40,10 @@
 		26FD207F22E3F8593247D03A /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EA662640004E4BC7FE8815F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		3D222B6625B192080073854E /* Next.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Next.storyboard; sourceTree = "<group>"; };
+		3D222B6725B192080073854E /* NextController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextController.swift; sourceTree = "<group>"; };
+		3D222B6F25B1AB030073854E /* PPScale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PPScale; sourceTree = "<group>"; };
+		3D222B7125B1AB5D0073854E /* PPScale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PPScale; sourceTree = "<group>"; };
 		3DFEFAAC2546C32E00D8A6F2 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		3DFEFAAD2546C32E00D8A6F2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		66E95B4D604E6C179AB44F9A /* Pods-Runner.screens.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.screens.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.screens.profile.xcconfig"; sourceTree = "<group>"; };
@@ -108,6 +116,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				3D222B7125B1AB5D0073854E /* PPScale */,
 				3DFEFAAC2546C32E00D8A6F2 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -117,6 +126,8 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				3D222B6625B192080073854E /* Next.storyboard */,
+				3D222B6725B192080073854E /* NextController.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -124,6 +135,7 @@
 		BDBB0FA7669584FC632DEC1E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				3D222B6F25B1AB030073854E /* PPScale */,
 				E9FEA92374607E29BE6E4CE9 /* Pods-Runner.debug.xcconfig */,
 				2EA662640004E4BC7FE8815F /* Pods-Runner.release.xcconfig */,
 				66E95B4D604E6C179AB44F9A /* Pods-Runner.screens.profile.xcconfig */,
@@ -198,7 +210,10 @@
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				3D222B7025B1AB030073854E /* PPScale in Resources */,
+				3D222B6825B192080073854E /* Next.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				3D222B7225B1AB5D0073854E /* PPScale in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				3D222B6925B192080073854E /* NextController.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
